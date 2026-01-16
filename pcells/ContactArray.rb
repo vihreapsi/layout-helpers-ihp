@@ -7,6 +7,7 @@ module IHPQSLib
 
     def initialize
       super
+      param(:l, TypeLayer, "Layer", :default=>IHPQSLib::Layers::CONT)
       param(:r, TypeInt, "Row", :default=>5)
       param(:c, TypeInt, "Column", :default=>5)
       param(:sp, TypeInt, "Spacing (nm)", :default=>180)
@@ -24,14 +25,14 @@ module IHPQSLib
     end
 
     def produce_impl
-      self.r.times do |i|
-        self.c.times do |j|
+      self.c.times do |i|
+        self.r.times do |j|
           x = i * (self.sz + self.sp)
           y = j * (self.sz + self.sp)
-          IHPQSLib::Utils.drect_nm(cell,x,y,self.sz,self.sz,IHPQSLib::Layers::CONT)
+          IHPQSLib::Utils.drect_nm(cell,x,y,self.sz,self.sz,self.l)
         end
       end
-
+      puts "Inserted PCell ContactArray. Rows: #{self.r} x Cols: #{self.c}. Size: #{self.sz}nm. Spacing: #{self.sp}nm."
     end
   end
 end
