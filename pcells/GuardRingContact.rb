@@ -42,12 +42,18 @@ module IHPQSLib
 
     def produce_impl
       self.n.times do |n|
-        # Horizontal
-        ## South
-        ### Effective length
+        # Measurements
+        ## Effective width and height
         w = self.w + (self.p + (self.sz + self.c) * (n+1) + self.c * n) * 2
         h = self.h + (self.p + (self.sz + self.c) * (n+1) + self.c * n) * 2
-        
+
+        # Horizontal
+        ## South
+        # x = self.p + self.c #tbc
+        # cont_placement = Utils.fitter(self.sz, w, self.ms, "c", 5, 0)
+        # cont_placement.times do |i|
+        #   Utils.drect()
+        # end
 
       end
       puts "Inserted PCell GuardRingContact. ..."
