@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # define IHP SG13G2 process layers
 module IHPQSLib
   module Layers

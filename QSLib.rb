@@ -11,7 +11,7 @@ module IHPQSLib
       Dir.glob(File.join(pcells_pth, "*.rb")).each do |pcell_file|
         begin
           load pcell_file
-          class_name = File.basename(pcell_file, ".rb")
+          class_name = File.basename(pcell_file, ".rb").split("_").map(&:capitalize).join
           pcell_class = IHPQSLib.const_get(class_name)
           layout.register_pcell(class_name, pcell_class.new)
         rescue NameError => e
