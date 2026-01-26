@@ -10,11 +10,12 @@ module IHPQSLib
     extend self
 
     # _drectxy_ draws a rectangle in nanometers on a specific layer
-    # * +cell+: is the cell on which the rectangle will be drawn
-    # * +x+: is x coordinates of the rectangle
-    # * +y+: is y coordinates of the rectangle
-    # * +w+: is the width of the rectangle
-    # * +h+: is the height of the rectangle
+    # @param [Cell] cell is the cell on which the rectangle will be drawn
+    # @param [Float] x is x coordinates of the rectangle
+    # @param [Float] y is y coordinates of the rectangle
+    # @param [Float] w is the width of the rectangle
+    # @param [Float] h is the height of the rectangle
+    # @param [Layer] layer is the layer where to draw the rectangle
     def drectxy(cell, x, y, w, h, layer)
       arg_checker(
         expression: 'x should be a number',
@@ -36,11 +37,11 @@ module IHPQSLib
     end
 
     # _drect_ draws a rectangle in nanometers on a specific layer
-    # * +cell+: is the cell on which the rectangle will be drawn
-    # * +o+: is the origin point of QSPoint type (the point A situated on the left-bottom corner)
-    # * +y+: is y coordinates of the rectangle
-    # * +w+: is the width of the rectangle
-    # * +h+: is the height of the rectangle
+    # @param [Cell] cell is the cell on which the rectangle will be drawn
+    # @param [QSPoint] o is the origin point of QSPoint type (the point A situated on the left-bottom corner)
+    # @param [Float] w is the width of the rectangle
+    # @param [Float] h is the height of the rectangle
+    # @param [Layer] layer is the layer where to draw the rectangle
     def drect(cell, o, w, h, layer)
       arg_checker(
         expression: 'o should be of type QSPoint provided ~param~',
@@ -55,15 +56,16 @@ module IHPQSLib
     # The _fitter_ computes in nanometer coordinates of equally sized and equally spaced lines (_sprinkles_)
     # within a given length line. It follows strict grid snapping and be constrained
     # to a minimum spacing.
-    # * +size+: the length of the sprinkles
-    # * +length+: the length of the sprinkle container
-    # * +min_spacing+: the minimum spacing constraint
-    # * +position+: extra space position:
-    #   * +'l'+: left (default)
-    #   * +'r'+: right
-    #   * +'c'+: center
-    # * +snap_grid+: the grid constraint snapping
-    # * +paddings+: consider a padding at start and end of the sprinkle container
+    # @param [Float] sprinkle_size the length of the sprinkles
+    # @param [Float] sprinkle_length the length of the sprinkle container
+    # @param [Float] min_spacing the minimum spacing constraint
+    # @param [Float] position extra space position:
+    # * +'l'+: left (default)
+    # * +'r'+: right
+    # * +'c'+: center
+    # @param [Float] snap_grid the grid constraint snapping
+    # @param [Float] paddings consider a padding at start and end of the sprinkle container
+    # @return [Array] array of calculated coordinates of origin point of the sprinkles.
     def fitter(sprinkle_size, sprinkle_length, min_spacing, position='l', snap_grid=5, paddings=0)
       ## Argument validation
       # size fitting on length + paddings
@@ -107,13 +109,12 @@ module IHPQSLib
 
     # _arg_checker_ checks for arguments and raise error if condition is not met. It parses the string +~param~+
     # included in the argument +expression+ and place instead +name+: +value+
-    # Parameters:
-    # * +expression+ the error that will be displayed.
-    # * +condition+ the condition for _NOT_ raising the error. If condition is +false+ the error will raise.
-    # * +name+ the name of the argument that will be checked, if defined, it will be included in +expression+ or
-    #   in the internal default expression that will be displayed.
-    # * +value+ the value of the argument that will be checked, if defined, it will be included in +expression+ or
-    #   in the internal default expression that will be displayed.
+    # @param [String] expression the error that will be displayed.
+    # @param [Boolean] condition the condition for _NOT_ raising the error.
+    # If condition is +false+ the error will raise.
+    # @param [String] name the name of the argument that will be checked, if defined, it will be included in expression or in the internal default expression that will be displayed.
+    # @param value the value of the argument that will be checked, if defined, it will be included in expression or in the internal default expression that will be displayed.
+    # @raise [ArgumentError] if the condition doesn't meet.
     def arg_checker(expression:, condition:, name: nil, value: nil)
       name_value = [name, value].compact.join(': ')
 
@@ -139,6 +140,10 @@ module IHPQSLib
     # _param_coercer_ is a method for coercing parameter in PCells creation.
     # It accepts keywords for number main intervals: zero, (strictly) positive/negative.
     # Or a limitations with +val_min+ as minimum value and +val_max+ as maximum value.
+    # @param param parameters to be coerced
+    # @param val_min minimum value of the parameter or a keyword
+    # @param val_max maximum value of the parameter
+    # @return the coerced parameter
     def param_coercer(param, val_min = nil, val_max = nil)
       return nil if param.nil?
 
@@ -174,8 +179,8 @@ module IHPQSLib
 
     # _RandomName_ generates random pair of adjective-name for instance naming.
     # Usage:
-    # * +RandomName.generate+ for 1_adjective-1_name combination.
-    # * +RandomName.generate(n)+ for n_adjective(s)-1_name combination.
+    #   RandomName.generate    # for adjective-name combination.
+    #   RandomName.generate(n) # for n_adjective(s)-name combination.
     class RandomName
       ADJECTIVES = %w[
         ancient bitter cold damp eerie fast great hard icy jolly keen light misty noble odd
@@ -197,6 +202,8 @@ module IHPQSLib
         ink jet krill lake mount net out post quill rock spire tree urn vent wood
       ].freeze
 
+      # Generator
+      # @return return a random adjective(s)-name combination
       def self.generate(num = 1)
         !num.is_a?(Integer) ? num = 1 : nil
         num < 1 ? num = 1 : nil
