@@ -299,5 +299,17 @@ module IHPQSLib
     EXCHANGE4_PIN = RBA::LayerInfo.new(194, 2)
     EXCHANGE4_TEXT = RBA::LayerInfo.new(194, 25)
     ISONWELL = RBA::LayerInfo.new(257, 0)
+    METALS = [METAL1, METAL2, METAL3, METAL4, METAL5, TOPMETAL1, TOPMETAL2]
+    VIAS = [VIA1, VIA2, VIA3, VIA4, TOPVIA1, TOPVIA2]
+    METALS_VIAS = [METAL1, VIA1, METAL2, VIA2, METAL3, VIA3, METAL4, VIA4, METAL5, TOPVIA1, TOPMETAL1, TOPVIA2, TOPMETAL2]
+    METALS_NAMES = {
+      metal1: [METAL1, "Metal 1"],
+      metal2: [METAL2, "Metal 2"],
+      metal3: [METAL3, "Metal 3"],
+      metal4: [METAL4, "Metal 4"],
+      metal5: [METAL5, "Metal 5"],
+      topmetal1: [TOPMETAL1, "Top Metal 1"],
+      topmetal2: [TOPMETAL2, "Top Metal 2"]
+    }
   end
 end

@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require_relative 'rules'
+require_relative 'layers'
 
 # IHPQSLib namespace
 module IHPQSLib
@@ -174,6 +175,23 @@ module IHPQSLib
         param.clamp(min, max)
       else
         raise ArgumentError, "Arguments not valid: #{val_min}/#{val_max}"
+      end
+    end
+
+    def get_metal_stack(src_lay, dest_lay)
+      return nil if src_lay.nil? || dest_lay.nil?
+      unless Layers::METALS.include?(src_lay) && Layers::METALS.include?(dest_lay)
+        puts "Error. Layer not permitted."
+        return nil
+      end
+
+      src_idx = Layers::METALS_VIAS.index(src_lay)
+      dest_idx = Layers::METALS_VIAS.index(dest_lay)
+      
+      if src_idx <= dest_idx
+        Layers::METALS_VIAS[src_idx..dest_idx]
+      else
+        Layers::METALS_VIAS[src_idx..dest_idx].reverse
       end
     end
 

@@ -13,6 +13,7 @@ module IHPQSLib
       param(:c, TypeInt, "Column", default: 5)
       param(:sz, TypeInt, "Size (nm)", default: 160)
       param(:sp, TypeInt, "Spacing (nm)", default: 180)
+      param(:cl, TypeInt, "Clearance (nm)", default: 0)
       param(:sg, TypeInt, "Snap grid (nm)", default: 5)
     end
 
@@ -29,15 +30,19 @@ module IHPQSLib
       Utils.snap_grid_checker(self.sg, { size: self.sz, spacing: self.sp })
     end
 
-    def produce_impl
+    def draw_array(lyr)
       self.c.times do |i|
         self.r.times do |j|
-          x = i * (self.sz + self.sp)
-          y = j * (self.sz + self.sp)
-          IHPQSLib::Utils.drectxy(cell, x, y, self.sz, self.sz, self.l)
+          x = i * (self.sz + self.sp) + self.cl
+          y = j * (self.sz + self.sp) + self.cl
+          IHPQSLib::Utils.drectxy(cell, x, y, self.sz, self.sz, lyr)
         end
       end
       puts "Inserted PCell ContactArray. Rows: #{self.r} x Cols: #{self.c}. Size: #{self.sz}nm. Spacing: #{self.sp}nm."
+    end
+
+    def produce_impl
+      draw_array(self.l)
     end
   end
 end
