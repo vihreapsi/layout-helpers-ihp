@@ -4,7 +4,7 @@ module IHPQSLib
   class QSLib < Library
     
     def initialize
-      self.description = "QoSoC Library for IHP-SG13G2"
+      self.description = "Quadratische Spezereien Library for IHP-SG13G2"
 
       pcells_pth = File.join(File.dirname(__FILE__), "pcells")
 
