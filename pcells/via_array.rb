@@ -10,6 +10,16 @@ module IHPQSLib
       param(:l, TypeLayer, "Layer", default: Layers::CONT, hidden: true)
       param(:sl, TypeString, "Source Layer", default: "metal1", choices: Layers::METALS_NAMES.map { |lid, dt| [dt[1], lid.to_s] })
       param(:dl, TypeString, "Destination Layer", default: "metal2", choices: Layers::METALS_NAMES.map { |lid, dt| [dt[1], lid.to_s] })
+      param(:im, TypeString, "Include Metal", hidden: true, default: 'n', choices: [
+        ['Yes', 'y'],
+        ['No', 'n']
+      ])
+      param(:iga, TypeString, "Include GatPoly/Activ", hidden: true, default: 'n', choices: [
+        ['Gatploy', 'g'],
+        ['Activ', 'a'],
+        ['No', 'n']
+      ])
+
     end
 
     def display_text_impl
@@ -34,7 +44,11 @@ module IHPQSLib
         metal_stack.each do |st|
           # draw metal
           if Layers::METALS.include?(st)
-            Utils.drectxy(cell, 0, 0, w, h, st)
+            clearance_rule = (st == Layers::METAL1) ? Rules::VIA1_METAL1_MIN_ENDCAP_ENCLOSURE : Rules::VIA2TO4_METAL2TO4_MIN_ENDCAP_ENCLOSURE
+            wm = w + clearance_rule * 2
+            hm = h + clearance_rule * 2
+            puts ">>>>>>>>>>>>>>> Dim w=#{wm} x h=#{hm}"
+            Utils.drectxy(cell, 0, 0, wm, hm, st)
           end
 
           # draw via array
